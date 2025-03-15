@@ -1,22 +1,12 @@
-FROM node:16 
+FROM node:16
 
-# Set the working directory
 WORKDIR /app
-
-# Copy package.json and package-lock.json first to leverage Docker caching
-COPY package.json ./
-
-# Set npm registry to avoid timeout issues
+COPY package.json ./  # Ensure lock file is copied
 RUN npm config set registry https://registry.npmjs.org/ \
     && npm config set timeout 600000 \
-    && npm install --legacy-peer-deps --prefer-offline --no-audit
+    && npm cache clean --force \
+    && npm install --legacy-peer-deps --prefer-offline --no-audit --progress=false
 
-# Copy the rest of the app
-COPY . .
-
-# Expose the application port
+COPY . . 
 EXPOSE 3000
-
-# Start the application
 CMD ["npm", "start"]
-

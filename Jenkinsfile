@@ -17,7 +17,7 @@ pipeline {
         stage('Build Frontend Image') {
             steps {
                 dir('frontend') {
-                    sh 'docker build -t mohamedessam1911/ecommerce-frontend:latest .'
+                    sh 'docker build --no-cache -t mohamedessam1911/ecommerce-frontend:latest .'
                 }
             }
         }
